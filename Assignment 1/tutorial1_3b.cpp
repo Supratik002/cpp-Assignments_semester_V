@@ -7,3 +7,6 @@ int main()
 	int x=capVowel5-capVowel1;
 	std::cout<<"x="<<x<<"\n";
 	}
+/*The answer is coming out to be same in both 3a and 3b.
+Reason : Though the ASCII values for the small and capital vowels are different. 
+          But the difference between two small vowels and the difference between two capital vowels are exactly same.*/
