@@ -1,19 +1,16 @@
-#include <iostream>
-#include <cmath>
-
-double roundtoKthplace(double number, int k) {
-    double f = k;
-    return std::round(number* f) / f;
-}
-
-int main() {
-    double n;
-    int k;
-    std::cout << "Enter a real number: ";
-    std::cin >> n;
-    std::cout << "Enter a positive integer k(multiple of 10): ";
-    std::cin >> k;
-    double roundNumber = roundtoKthplace(n, k);
-    std::cout << "Rounded number: " << roundNumber <<"\n" ;
-    return 0;
+#include<iostream>
+#include<math.h>
+int main()
+{
+	int k,m;
+	float n,nn,p;
+	std::cout<<"enter the number";
+	std::cin>>n;
+	std::cout<<"enter the kth place";
+	std::cin>>k;
+	nn=n*pow(10,k);
+	nn=nn+0.5;
+	m=(int)nn;
+	p=(float)m/pow(10,k);
+	std::cout<<"the ans is "<<p<<"\n";
 }
