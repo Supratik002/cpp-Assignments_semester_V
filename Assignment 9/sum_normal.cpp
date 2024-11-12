@@ -1,28 +1,26 @@
 #include <iostream>
 #include <fstream>
-#include <vector>
-unsigned long long sumFileCharacters(const std::string& filename) {
-    unsigned long long totalSum = 0;
-    std::ifstream file(filename, std::ios::binary);
-    if (!file) {
-        std::cerr << "The file " << filename << " was not found." << std::endl;
+uint64_t sumCharactersInFile(const std::string& filePath) {
+    uint64_t total = 0;
+    char ch;
+    // Open the file in text mode
+    std::ifstream file(filePath);
+    if (!file.is_open()) {
+        std::cerr << "Error opening file: " << filePath << std::endl;
         return 0;
     }
-    // Read the file in chunks to handle large files efficiently
-    const std::size_t bufferSize = 1024;
-    std::vector<unsigned char> buffer(bufferSize);
-    while (file.read(reinterpret_cast<char*>(buffer.data()), bufferSize) || file.gcount()) {
-        // Sum up all bytes read in the current chunk
-        for (std::streamsize i = 0; i < file.gcount(); ++i) {
-            totalSum += buffer[i];
-        }
+    // Read each character and add its ASCII value to total
+    while (file.get(ch)) {
+        total += static_cast<unsigned char>(ch);
     }
     file.close();
-    return totalSum;
+    return total;
 }
 int main() {
-    std::string filename = "my_file.txt"; 
-    unsigned long long result = sumFileCharacters(filename);
-    std::cout << "The total sum of characters in the file is: " << result << std::endl;
+    std::string filePath = "my_file.txt";
+    uint64_t totalSum = sumCharactersInFile(filePath);
+    std::cout << "The total sum of all characters in the file is: " << totalSum << std::endl;
     return 0;
 }
+
+    
