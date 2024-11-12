@@ -25,7 +25,7 @@ void copyFile(const std::string& sourceFilename, const std::string& destinationF
     destinationFile.close();
 }
 int main() {
-    std::string sourceFilename = "source.txt"; // Replace with your source file path
+    std::string sourceFilename = "my_file.txt"; // Replace with your source file path
     std::string destinationFilename = "destination.txt"; // Replace with your destination file path
     copyFile(sourceFilename, destinationFilename);
     return 0;
