@@ -1,0 +1,64 @@
+#include <iostream>
+#include <fstream>
+
+using namespace std;
+
+class fileRA {
+    fstream file;
+    //string filename;
+
+public:
+    // Constructor to open file in read and write mode
+    fileRA(const string &fname) : filename(fname) {
+        file.open(filename, ios::in | ios::out | ios::binary);
+        if (!file) {
+            throw runtime_error("Failed to open file.");
+            }
+    }
+    // Get file size
+    unsigned int get_size() {
+        file.clear(); // Clear flags before seeking
+        file.seekg(0, ios::end);
+        return static_cast<unsigned int>(file.tellg());
+    }
+    // Helper class for file access descriptor
+    class FileDescriptor {
+        fileRA &fileRAObj;
+        streampos pos;
+    public:
+        FileDescriptor(fileRA &obj, streampos p) : fileRAObj(obj), pos(p) {}
+        // Assignment operator to write to file at specific position
+        FileDescriptor &operator=(char ch) {
+            fileRAObj.file.seekp(pos);
+            fileRAObj.file.put(ch);
+            return *this;
+        }
+        // Implicit conversion to char to read from file at specific position
+        operator char() const {
+            fileRAObj.file.seekg(pos);
+            return fileRAObj.file.get();
+        }
+    };
+    // Overload [] to return a FileDescriptor object
+    FileDescriptor operator[](std::streampos pos) {
+        if (pos >= get_size()) {
+            throw out_of_range("Position is out of range");
+        }
+        return FileDescriptor(*this, pos);
+    }
+};
+
+int main() {
+        fileRA fobj("Test.txt");
+        // Random write to file
+        fobj[4] = 'A';
+        // Print file contents
+        for (unsigned int i = 0; i < fobj.get_size(); i++) {
+            std::cout << fobj[i];
+        }
+        // Read a specific character with implicit conversion
+        char c = fobj[1];
+        std::cout << "\nChar is = " << c << std::endl;
+       
+    return 0;
+}
